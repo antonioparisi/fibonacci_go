@@ -1,10 +1,17 @@
 package main
 
-import "fmt"
-import "net/http"
-import "strconv"
+import (
+  "fmt"
+  "net/http"
+  "strconv"
+  "os"
+)
 
 func main() {
+  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Call /fibonacci?index={number}")
+  })
+
   http.HandleFunc("/fibonacci", func(w http.ResponseWriter, r *http.Request) {
     i := fib_generator()
 
@@ -18,7 +25,10 @@ func main() {
     fmt.Fprintf(w, "%d", result)
   })
 
-  http.ListenAndServe(":8080", nil)
+  err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+  if err != nil {
+    panic(err)
+  }
 }
 
 func fib_generator() chan uint64 {
