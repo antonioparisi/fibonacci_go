@@ -9,10 +9,10 @@ import (
 
 func main() {
   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Call /fibonacci?index={number}")
+    fmt.Fprintf(w, "To use it call: /generate?index={number}")
   })
 
-  http.HandleFunc("/fibonacci", func(w http.ResponseWriter, r *http.Request) {
+  http.HandleFunc("/generate", func(w http.ResponseWriter, r *http.Request) {
     i := fib_generator()
 
     index, _ := strconv.Atoi(r.FormValue("index"))
